@@ -16,8 +16,8 @@ function crearTarea() {
     nombreTarea.setAttribute("type", "text")
     nombreTarea.setAttribute("placeholder","Nombre de la tarea")
 
-    const detalle = document.createElement("textarea"); 
-    detalle.setAttribute("placeholder", "Detalle")
+    const detalleTarea = document.createElement("textarea"); 
+    detalleTarea.setAttribute("placeholder", "Detalle")
 
     const btnGuardar = document.createElement("button");
     btnGuardar.textContent = "Guardar tarea"
@@ -32,7 +32,7 @@ function crearTarea() {
 
     tarea.appendChild(inputCheck)
     tarea.appendChild(nombreTarea)
-    tarea.appendChild(detalle)
+    tarea.appendChild(detalleTarea)
     tarea.appendChild(btnGuardar)
     tarea.appendChild(btnAgregarMiniTarea)
     tarea.appendChild(btnMas)
@@ -40,45 +40,43 @@ function crearTarea() {
 
     listaPendientes.appendChild(tarea);
 
-    inputCheck.addEventListener("click", detectarCambioEstado);
-    btnGuardar.addEventListener("click", guardarTareas)
+    btnGuardar.addEventListener("click", function () {
+        const nombre = nombreTarea.value
+        const detalle = detalleTarea.value
+        const estado1 = inputCheck.checked
+
+        const objetoTarea = crearObjetoTarea(nombre,detalle,estado1)
+        guardarTareas(objetoTarea)
+    });
+
+    
+
+    inputCheck.addEventListener("click", cambiarEstadoTarea);
+
     btnAgregarMiniTarea.addEventListener("click", agregarMiniTarea);
     btnMas.addEventListener("click", mas)
-
-
     }
 
-function detectarCambioEstado(evento){
+
+function crearObjetoTarea(nombre, detalle, estado, miniTareas){
+    const ObjetoTarea = {
+        nombre: nombre,
+        detalle: detalle,
+        estado: estado,
+        miniTareas: []
+    }
+    return ObjetoTarea      ;
+}
+
+function guardarTareas(objetoTarea){
+    tareas.push(objetoTarea);
+    console.log(tareas);
+}
+
+function cambiarEstadoTarea(evento){
     const contenedorTarea = evento.target.parentElement
-    const estado = false
 
     if (evento.target.checked) {
-        estado = true
-    }else{
-        estado = false
-    }
-
-    cambiarEstadoTarea(estado)
-}
-
-function crearObjetoTarea(estado){
-    /*ObjetoTarea{
-        nombre == nombreTarea,
-        detalle == detalle,
-        estado == false,
-        miniTareas: []
-    }*/
-}
-
-function guardarTareas(ObjetoTarea){
-    tareas.push(ObjetoTarea);
-}
-
-function cambiarEstadoTarea(estado){
-    console.log(evento.target.checked);
-    const contenedorTarea = evento.target.parentElement
-
-    if (estado == true) {
         listaCompletadas.appendChild(contenedorTarea);
     }else{
         listaPendientes.appendChild(contenedorTarea);
