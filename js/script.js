@@ -21,6 +21,7 @@ function crearTarea() {
 
     const btnGuardar = document.createElement("button");
     btnGuardar.textContent = "Guardar tarea"
+    let guardado = false
 
     const btnAgregarMiniTarea = document.createElement("button");
     btnAgregarMiniTarea.textContent = "Agregar mini tarea"
@@ -41,12 +42,19 @@ function crearTarea() {
     listaPendientes.appendChild(tarea);
 
     btnGuardar.addEventListener("click", function () {
-        const nombre = nombreTarea.value
-        const detalle = detalleTarea.value
-        const estado1 = inputCheck.checked
 
-        const objetoTarea = crearObjetoTarea(nombre,detalle,estado1)
-        guardarTareas(objetoTarea)
+        if (guardado == false) {
+            const nombre = nombreTarea.value
+            const detalle = detalleTarea.value
+            const estado1 = inputCheck.checked
+            guardado = true
+
+            const objetoTarea = crearObjetoTarea(nombre,detalle,estado1)
+            guardarTareas(objetoTarea)
+
+            
+        } else { console.log ("Error: esta tarea ya esta guardada")}
+        
     });
 
     
@@ -59,13 +67,13 @@ function crearTarea() {
 
 
 function crearObjetoTarea(nombre, detalle, estado, miniTareas){
-    const ObjetoTarea = {
+    const objetoTarea = {
         nombre: nombre,
         detalle: detalle,
         estado: estado,
         miniTareas: []
     }
-    return ObjetoTarea      ;
+    return objetoTarea      ;
 }
 
 function guardarTareas(objetoTarea){
@@ -146,8 +154,6 @@ function eliminar(evento){
     contenedorTarea.removeChild(tarea)
     
 }
-
-
 
 btnAgregar.addEventListener("click", function () {
     console.log("Botón presionado");
