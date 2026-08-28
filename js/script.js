@@ -39,25 +39,33 @@ function crearTarea() {
     tarea.appendChild(btnMas)
     tarea.appendChild(ul)
 
+    const objetoTarea = crearObjetoTarea("", "", false);
+    tarea.objetoTarea = objetoTarea;
+    tareas.push(objetoTarea);
+
     listaPendientes.appendChild(tarea);
 
     btnGuardar.addEventListener("click", function () {
 
-        if (guardado == false) {
-            const nombre = nombreTarea.value
-            const detalle = detalleTarea.value
-            const estado1 = inputCheck.checked
-            guardado = true
+    if (guardado == false) {
 
-            const objetoTarea = crearObjetoTarea(nombre,detalle,estado1)
-            guardarTareas(objetoTarea)
+        nombreTarea.addEventListener("input", function () { 
+            tarea.objetoTarea.nombre = nombreTarea.value ; 
+        });
 
-            
-        } else { console.log ("Error: esta tarea ya esta guardada")}
+        detalleTarea.addEventListener("input", function(){
+            tarea.objetoTarea.detalle = detalleTarea.value;
+        });
+
+        inputCheck.addEventListener("change", function () {
+        tarea.objetoTarea.estado = inputCheck.checked;
+        });
         
+        guardado = true;
+    } else {
+        console.log("Error: esta tarea ya esta guardada");
+    }
     });
-
-    
 
     inputCheck.addEventListener("click", cambiarEstadoTarea);
 
@@ -105,12 +113,26 @@ function agregarMiniTarea(evento){
     nombreMiniTarea.setAttribute("type", "text")
     nombreMiniTarea.setAttribute("placeholder","Nombre de la mini tarea")
 
+    const nombre = nombreMiniTarea.value;
+    const estado = inputCheckMiniTarea.checked;
+
+    const objetoMiniTarea = crearObjetoMiniTarea(nombre, estado);
+    tarea.objetoTarea.miniTareas.push(objetoMiniTarea);
+
     miniTarea.appendChild(inputCheckMiniTarea)
     miniTarea.appendChild(nombreMiniTarea)
 
     listaMiniTareas.appendChild(miniTarea)
+    console.log(tareas);
 }
 
+function crearObjetoMiniTarea (nombre, estado){
+    const miniTarea = {
+        nombre: nombre,
+        estado: estado
+    }
+    return miniTarea
+}
 function mas(evento){
     const tarea = evento.target.parentElement;
     
