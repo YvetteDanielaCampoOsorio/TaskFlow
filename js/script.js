@@ -43,24 +43,23 @@ function crearTarea() {
     tarea.objetoTarea = objetoTarea;
     tareas.push(objetoTarea);
 
+    nombreTarea.addEventListener("input", function () { 
+        tarea.objetoTarea.nombre = nombreTarea.value ; 
+    });
+
+    detalleTarea.addEventListener("input", function(){
+        tarea.objetoTarea.detalle = detalleTarea.value;
+    });
+
+    inputCheck.addEventListener("change", function () {
+        tarea.objetoTarea.estado = inputCheck.checked;
+    });
+
     listaPendientes.appendChild(tarea);
 
     btnGuardar.addEventListener("click", function () {
 
     if (guardado == false) {
-
-        nombreTarea.addEventListener("input", function () { 
-            tarea.objetoTarea.nombre = nombreTarea.value ; 
-        });
-
-        detalleTarea.addEventListener("input", function(){
-            tarea.objetoTarea.detalle = detalleTarea.value;
-        });
-
-        inputCheck.addEventListener("change", function () {
-        tarea.objetoTarea.estado = inputCheck.checked;
-        });
-        
         guardado = true;
     } else {
         console.log("Error: esta tarea ya esta guardada");
@@ -82,11 +81,6 @@ function crearObjetoTarea(nombre, detalle, estado, miniTareas){
         miniTareas: []
     }
     return objetoTarea      ;
-}
-
-function guardarTareas(objetoTarea){
-    tareas.push(objetoTarea);
-    console.log(tareas);
 }
 
 function cambiarEstadoTarea(evento){
