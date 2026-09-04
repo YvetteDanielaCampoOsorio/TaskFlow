@@ -31,6 +31,14 @@ function crearTarea() {
 
     const ul = document.createElement("ul"); 
 
+    const objetoTarea = crearObjetoTarea("", "", false);
+
+    tarea.objetoTarea = objetoTarea;
+    tarea.nombreTarea = nombreTarea;
+    tarea.detalleTarea = detalleTarea;
+    tarea.btnMas = btnMas;
+    tarea.listaMiniTareas = ul;
+    
     tarea.appendChild(inputCheck)
     tarea.appendChild(nombreTarea)
     tarea.appendChild(detalleTarea)
@@ -39,8 +47,6 @@ function crearTarea() {
     tarea.appendChild(btnMas)
     tarea.appendChild(ul)
 
-    const objetoTarea = crearObjetoTarea("", "", false);
-    tarea.objetoTarea = objetoTarea;
     tareas.push(objetoTarea);
 
     nombreTarea.addEventListener("input", function () { 
@@ -60,7 +66,12 @@ function crearTarea() {
     btnGuardar.addEventListener("click", function () {
 
     if (guardado == false) {
+
         guardado = true;
+        
+        nombreTarea.disabled = true;
+        detalleTarea.disabled = true;
+
     } else {
         console.log("Error: esta tarea ya esta guardada");
     }
@@ -70,8 +81,7 @@ function crearTarea() {
 
     btnAgregarMiniTarea.addEventListener("click", agregarMiniTarea);
     btnMas.addEventListener("click", mas)
-    }
-
+}
 
 function crearObjetoTarea(nombre, detalle, estado, miniTareas){
     const objetoTarea = {
@@ -96,7 +106,7 @@ function cambiarEstadoTarea(evento){
 function agregarMiniTarea(evento){
     const tarea = evento.target.parentElement;
 
-    const listaMiniTareas = tarea.children[5];
+    const listaMiniTareas = tarea.listaMiniTareas;
 
     const miniTarea = document.createElement("li");
 
@@ -112,6 +122,16 @@ function agregarMiniTarea(evento){
 
     const objetoMiniTarea = crearObjetoMiniTarea(nombre, estado);
     tarea.objetoTarea.miniTareas.push(objetoMiniTarea);
+
+    nombreMiniTarea.addEventListener("input", function () {
+        objetoMiniTarea.nombre = nombreMiniTarea.value;
+        console.log(objetoMiniTarea);
+    });
+
+    inputCheckMiniTarea.addEventListener("change", function(){
+        objetoMiniTarea.estado = inputCheckMiniTarea.checked;
+        console.log(objetoMiniTarea);
+    });
 
     miniTarea.appendChild(inputCheckMiniTarea)
     miniTarea.appendChild(nombreMiniTarea)
@@ -130,7 +150,7 @@ function crearObjetoMiniTarea (nombre, estado){
 function mas(evento){
     const tarea = evento.target.parentElement;
     
-    const btnMas = tarea.children[4];
+    const btnMas = tarea.btnMas;
 
     if (btnMas.children.length == 0){
 
@@ -158,8 +178,12 @@ function mas(evento){
 }
 
 function editar(evento){
-    
+    const tarea = evento.target.parentElement.parentElement.parentElement;
+
+    tarea.nombreTarea.disabled = false;
+    tarea.detalleTarea.disabled = false;
 }
+
 
 function eliminar(evento){
 
